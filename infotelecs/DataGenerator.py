@@ -33,11 +33,13 @@ class CreateData(object):
         self.base_path = "D:informconnection"
         self.train_path = ""
         self.valid_path = ""
+        self.lake_path = ""
 
     def create_directory(self, base_path=os.getcwd()):
         self.train_path = self.base_path + "\\" + "train"
         self.valid_path = self.base_path + "\\" + "test"
-        for fold in [self.train_path, self.valid_path]:
+        self.lake_path = self.base_path + "\\" + "lake"
+        for fold in [self.train_path, self.valid_path, self.lake_path]:
             for subf in ["tan", "sin_cos", "linear", 'exp']:
                 os.makedirs(os.path.join(fold, subf))
         self.sin_cos()
@@ -54,7 +56,7 @@ class CreateData(object):
                 x = np.linspace(0, 3*np.pi, step)
                 y = np.tan(x)
                 count += 1
-                self.save_plot(x, y, self.train_path + "\\" + "tan" +
+                self.save_plot(x, y, self.lake_path + "\\" + "tan" +
                                "\\" + "_tan_{}".format(count) + ".jpg", begin, True)
 
     def sin_cos(self):
@@ -69,7 +71,7 @@ class CreateData(object):
                         plt.plot(x, y)
                         count += 1
                         self.save_plot(x, y,
-                                       self.train_path + "\\" + "sin_cos" +
+                                       self.lake_path + "\\" + "sin_cos" +
                                        "\\" + "_sinCos_{}".format(count) +
                                        ".jpg")
 
@@ -95,7 +97,7 @@ class CreateData(object):
                     fig.plot(x, y)
                     if koef:
                         count += 1
-                        plt.savefig(self.train_path + "\\" + "linear" +
+                        plt.savefig(self.lake_path + "\\" + "linear" +
                                     "\\" + "_linear_{}".format(count) +
                                     ".jpg")
             for i in range(-9, 60):
@@ -111,7 +113,7 @@ class CreateData(object):
                 plt.ylim(-i, 20)
                 plt.plot(x_const, y_const)
                 count += 1
-                plt.savefig(self.train_path + "\\" + "linear" +
+                plt.savefig(self.lake_path + "\\" + "linear" +
                             "\\" + "_linear_{}".format(count) +
                             ".jpg")
         self.__rotation_some_image('linear')
@@ -130,13 +132,13 @@ class CreateData(object):
                 plt.plot(x, y)
                 count += 1
                 plt.xlim(2, end)
-                plt.savefig(self.train_path + "\\" + "exp" +
+                plt.savefig(self.lake_path + "\\" + "exp" +
                             "\\" + "_exp_{}".format(count) +
                             ".jpg")
         self.__rotation_some_image('exp', None)
 
     def __rotation_some_image(self, string, angle=90):
-        path = self.train_path + '\\' + string + '\\'
+        path = self.lake_path + '\\' + string + '\\'
         count = 0
         for end_of_string in os.listdir(path):
             count += 1
